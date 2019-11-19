@@ -1,18 +1,48 @@
 package view;
 
 import java.util.Scanner;
+
 import controller.CaixaEletronicoController;
+import model.ContaModel;
 
 public class CaixaEletronico {
 
 	Scanner scanner;
 	CaixaEletronicoController caixaEletronicoController;
-
+	ContaModel contaModel;
 	public CaixaEletronico() {
+		contaModel = new ContaModel();
 		scanner = new Scanner(System.in);
-		caixaEletronicoController = new CaixaEletronicoController();
+		caixaEletronicoController = new CaixaEletronicoController(contaModel);
 	}
-
+	
+	public void transferencia() {
+		ContaModel contaLuigi = new ContaModel();
+		contaLuigi.setSaldo(1500);
+		ContaModel contaRodrigo = new ContaModel();
+		contaRodrigo.setSaldo(100);
+		
+		caixaEletronicoController = new CaixaEletronicoController(contaLuigi);
+		contaRodrigo = caixaEletronicoController.transferenciaPara(contaRodrigo, 5);
+		contaRodrigo = caixaEletronicoController.transferenciaPara(contaRodrigo, 10);
+		contaRodrigo = caixaEletronicoController.transferenciaPara(contaRodrigo, 21);
+		
+		System.out.println("Saldo Luigi: " + contaLuigi.getSaldo());
+		System.out.println("Saldo Rodrigo: " + contaRodrigo.getSaldo());
+		
+		System.out.println("_____________");
+		System.out.println("Extrato da conta do Luigi");
+		for(int i = 0; i < contaLuigi.getHistorico().size(); i ++ ){
+			System.out.println("Data da transação: " + contaLuigi.getHistorico().get(i).getDataTransferencia());
+			System.out.println("Valor anterior: R$" + contaLuigi.getHistorico().get(i).getValorAnterior());
+			System.out.println("Valor atual: R$" + contaLuigi.getHistorico().get(i).getValorAtual());
+			System.out.println("Valor transferido: R$" + contaLuigi.getHistorico().get(i).getValor());
+			System.out.println("_____________");
+		}
+		
+		
+	}
+	
 	public void iniciarSessao() {
 		System.out.println("Qual operação deseja realizar? \n 1. Visualizar Saldo. \n 2.Sacar dinheiro.\n 3. Depositar \n 4.Sair");
 		
