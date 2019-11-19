@@ -15,4 +15,8 @@ public class CaixaEletronicoController {
 		return contaModel.getSaldo();
 	}
 	
+	
+	public void depositar(double valor) {
+		contaModel.aumentarSaldo(valor);
+	}
 }
